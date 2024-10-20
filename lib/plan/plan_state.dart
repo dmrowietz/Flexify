@@ -80,6 +80,41 @@ class PlanState extends ChangeNotifier {
   }
 
   updateDefaults() async {
+    final a = await db.gymSets.select().join([]).get();
+    final b = await (db.gymSets.select().join([])
+      ..orderBy(
+      [
+        OrderingTerm(
+          expression: db.gymSets.created,
+          mode: OrderingMode.asc,
+        ),
+      ],
+    )).get();
+    final c = await (db.gymSets.select().join([])
+      ..orderBy(
+        [
+          OrderingTerm(
+            expression: db.gymSets.created,
+            mode: OrderingMode.asc,
+          ),
+        ],
+      )
+      ..groupBy([db.gymSets.name])
+    ).get();
+
+    final d = await (db.gymSets.select().join([])
+      ..orderBy(
+        [
+          OrderingTerm(
+            expression: db.gymSets.created,
+            mode: OrderingMode.asc,
+          ),
+        ],
+      )
+      ..groupBy([db.gymSets.name])
+      ..addColumns(db.gymSets.$columns)
+    ).get();
+
     final value = await (db.gymSets.select().join([])
           ..orderBy(
             [
